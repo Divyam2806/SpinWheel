@@ -1,6 +1,17 @@
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
+const observer = new MutationObserver(() => {
+  const btn = document.querySelector(".spin-btn");
+  console.log("spin-btn found and listener attached");
+  if (btn) {
+    btn.addEventListener("click", spin);
+    observer.disconnect(); // Stop observing once found
+  }
+});
+
+observer.observe(document.body, { childList: true, subtree: true });
+
 const segments = [
   "10% OFF",
   "Free Shipping",
