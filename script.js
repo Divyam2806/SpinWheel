@@ -91,3 +91,7 @@ window.addEventListener("load", () => {
   canvas.height = size;
   drawWheel();
 });
+
+document.querySelector(".close-btn").addEventListener("click", () => {
+  document.querySelector(".wheel-wrapper").style.display = "none";
+});
