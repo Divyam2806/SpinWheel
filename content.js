@@ -1,9 +1,15 @@
 chrome.runtime.sendMessage({ type: "getSegments" }, (response) => {
-  console.log("the response is: ",response);
   
-  const segments = response && Array.isArray(response) ? response : [
-    "10% OFF", "Free Shipping", "20% OFF", "Try Again", "5% OFF", "No Luck"
-  ];
+  // console.log("the response is: ",response);
+
+  const segments = response && Array.isArray(response) ? response :[
+  { text: "10% OFF", color: "#FF6B6B" },
+  { text: "Free Shipping", color: "#FFD93D" },
+  { text: "20% OFF", color: "#6BCB77" },
+  { text: "Try Again", color: "#4D96FF" },
+  { text: "5% OFF", color: "#B983FF" },
+  { text: "No Luck", color: "#FF9F1C" }
+];
 
   console.log("segments is: ", segments);
 

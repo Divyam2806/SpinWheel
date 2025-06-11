@@ -2,11 +2,12 @@ let canvas, ctx;
 let segments = []; // Will be updated via postMessage or fallback
 
 const defaultSegments = [
-  "10% OFF", "Free Shipping", "20% OFF", "Try Again", "5% OFF", "No Luck"
-];
-
-const colors = [
-  "#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF", "#B983FF", "#FF9F1C"
+  { text: "10% OFF", color: "#FF6B6B" },
+  { text: "Free Shipping", color: "#FFD93D" },
+  { text: "20% OFF", color: "#6BCB77" },
+  { text: "Try Again", color: "#4D96FF" },
+  { text: "5% OFF", color: "#B983FF" },
+  { text: "No Luck", color: "#FF9F1C" }
 ];
 
 let arcSize;
@@ -19,8 +20,8 @@ window.addEventListener("message", (event) => {
     segments = event.data.segments;
     segmentsReceived = true;
     arcSize = (2 * Math.PI) / segments.length;
-    console.log("Custom segments received. Segments: ", segments);
-    
+    console.log("Custom segments received: ", segments);
+
     setupObserver();
   }
 });
@@ -34,6 +35,7 @@ setTimeout(() => {
     setupObserver();
   }
 }, 500);
+
 
 // ---- Wheel Drawing Logic ----
 function drawWheel(rotation = 0) {
@@ -49,24 +51,22 @@ function drawWheel(rotation = 0) {
   ctx.translate(centerX, centerY);
   ctx.rotate(rotation);
 
-  arcSize = (2 * Math.PI) / segments.length;
-
   for (let i = 0; i < segments.length; i++) {
+    const seg = segments[i];
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.fillStyle = colors[i % colors.length];
+    ctx.fillStyle = seg.color || "#cccccc";
     ctx.arc(0, 0, centerX, i * arcSize, (i + 1) * arcSize);
     ctx.lineTo(0, 0);
     ctx.fill();
 
-    // Text
     ctx.save();
     ctx.fillStyle = "#000";
     ctx.rotate((i + 0.5) * arcSize);
     ctx.translate(centerX * 0.65, 0);
     ctx.rotate(Math.PI / 2);
     ctx.font = "14px Arial";
-    ctx.fillText(segments[i], -ctx.measureText(segments[i]).width / 2, 0);
+    ctx.fillText(seg.text, -ctx.measureText(seg.text).width / 2, 0);
     ctx.restore();
   }
 
@@ -96,7 +96,7 @@ function spin() {
     } else {
       const angle = (2 * Math.PI - (currentRotation % (2 * Math.PI))) % (2 * Math.PI);
       const segmentIndex = Math.floor(angle / arcSize);
-      alert("Result: " + segments[segmentIndex]);
+      alert("Result: " + segments[segmentIndex].text);
     }
   }
 
