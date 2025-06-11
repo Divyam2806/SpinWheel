@@ -1,0 +1,43 @@
+<!-- options.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wheel Options</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+    input, button {
+      margin: 5px 0;
+      padding: 6px;
+      font-size: 14px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    .segment-item {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Configure Spin Wheel</h2>
+
+  <div>
+    <input type="text" id="segment-input" placeholder="Enter new segment">
+    <button id="add-btn">Add Segment</button>
+  </div>
+
+  <ul id="segment-list"></ul>
+
+  <button id="save-btn">Save Changes</button>
+
+  <script src="options.js"></script>
+</body>
+</html>

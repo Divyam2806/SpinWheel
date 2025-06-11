@@ -3,10 +3,14 @@
     "name": "Spin Wheel Plugin",
     "version": "1.0",
     "description": "Adds a spin-to-win wheel on web pages.",
-    "permissions": ["activeTab", "scripting"],
+    "permissions": ["activeTab", "scripting", "storage"],
+    "background": {
+    "service_worker": "background.js"
+    },
     "action": {
       "default_icon": "icon.png"
     },
+    "options_page": "options.html",
     "content_scripts": [
       {
         "matches": ["<all_urls>"],
