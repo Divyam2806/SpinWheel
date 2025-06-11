@@ -104,21 +104,6 @@ function spin() {
   requestAnimationFrame(animate);
 }
 
-// function initializeCanvas() {
-//   // Wait until canvas is visible and has height
-//   const checkReady = setInterval(() => {
-//     const size = canvas.clientHeight;
-//     if (size > 0) {
-//       canvas.width = size;
-//       canvas.height = size;
-//       drawWheel();
-//       clearInterval(checkReady);
-//     }
-//   }, 50);
-// }
-
-// initializeCanvas(); // Call immediately after declaring
-
 document.querySelector(".close-btn").addEventListener("click", () => {
   document.querySelector(".wheel-wrapper").style.display = "none";
 });

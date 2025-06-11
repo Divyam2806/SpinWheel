@@ -39,13 +39,19 @@ body {
 
 /* Circular Wheel */
 canvas {
+  all: initial;
+  display: block;
+  box-sizing: content-box;
+
   width: 60vh;
   height: 60vh;
   border-radius: 50%;
-  border: 8px solid #333;
+  border: 6px solid #333 !important;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
+  background: white;
 
+  z-index: 2147483647 !important;
+}
 /* Pointer on right-center */
 .pointer {
   position: absolute;
