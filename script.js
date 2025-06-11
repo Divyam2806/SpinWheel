@@ -3,10 +3,19 @@ const ctx = canvas.getContext("2d");
 
 const observer = new MutationObserver(() => {
   const btn = document.querySelector(".spin-btn");
-  console.log("spin-btn found and listener attached");
-  if (btn) {
+  const canvas = document.getElementById("wheel");
+  
+  if (btn && canvas) {
     btn.addEventListener("click", spin);
-    observer.disconnect(); // Stop observing once found
+
+    // Initialize canvas only once
+    const size = canvas.clientHeight || 600;
+    canvas.width = size;
+    canvas.height = size;
+    drawWheel();
+
+    console.log("spin-btn found and listener attached");
+    observer.disconnect();
   }
 });
 
@@ -95,13 +104,20 @@ function spin() {
   requestAnimationFrame(animate);
 }
 
-// Properly size canvas after DOM loads
-window.addEventListener("load", () => {
-  const size = canvas.clientHeight;
-  canvas.width = size;
-  canvas.height = size;
-  drawWheel();
-});
+// function initializeCanvas() {
+//   // Wait until canvas is visible and has height
+//   const checkReady = setInterval(() => {
+//     const size = canvas.clientHeight;
+//     if (size > 0) {
+//       canvas.width = size;
+//       canvas.height = size;
+//       drawWheel();
+//       clearInterval(checkReady);
+//     }
+//   }, 50);
+// }
+
+// initializeCanvas(); // Call immediately after declaring
 
 document.querySelector(".close-btn").addEventListener("click", () => {
   document.querySelector(".wheel-wrapper").style.display = "none";
