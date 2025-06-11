@@ -1,6 +1,5 @@
 chrome.runtime.sendMessage({ type: "getSegments" }, (response) => {
   
-  // console.log("the response is: ",response);
 
   const segments = response && Array.isArray(response) ? response :[
   { text: "10% OFF", color: "#FF6B6B" },

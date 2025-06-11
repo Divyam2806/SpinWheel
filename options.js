@@ -6,17 +6,47 @@ const segmentList = document.getElementById('segment-list');
 let segments = [];
 
 chrome.storage.sync.get("segments", (data) => {
-  console.log("data received is: ", data);
-  segments = data.segments || [
-    { text: "10% OFF", color: "#FF6B6B" },
-    { text: "Free Shipping", color: "#FFD93D" },
-    { text: "20% OFF", color: "#6BCB77" },
-    { text: "Try Again", color: "#4D96FF" },
-    { text: "5% OFF", color: "#B983FF" },
-    { text: "No Luck", color: "#FF9F1C" }
-  ];
-  renderList();
-});
+    let rawSegments = data.segments;
+  
+    // Handle case: no saved data (use default)
+    if (!Array.isArray(rawSegments)) {
+      rawSegments = getDefaultSegments();
+    }
+  
+    // Handle legacy string-based segments
+    const segmentsValid = rawSegments.every(seg => typeof seg === 'object' && 'text' in seg);
+    if (!segmentsValid) {
+      // Migrate legacy string segments to object format
+      segments = rawSegments.map((seg, idx) => ({
+        text: typeof seg === 'string' ? seg : `Segment ${idx + 1}`,
+        color: defaultColor(idx),
+      }));
+      // Save migrated version
+      chrome.storage.sync.set({ segments });
+    } else {
+      segments = rawSegments;
+    }
+  
+    renderList();
+  });
+  
+  // Helpers
+  function getDefaultSegments() {
+    return [
+      { text: "10% OFF", color: "#FF6B6B" },
+      { text: "Free Shipping", color: "#FFD93D" },
+      { text: "20% OFF", color: "#6BCB77" },
+      { text: "Try Again", color: "#4D96FF" },
+      { text: "5% OFF", color: "#B983FF" },
+      { text: "No Luck", color: "#FF9F1C" }
+    ];
+  }
+  
+  function defaultColor(i) {
+    const palette = ["#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF", "#B983FF", "#FF9F1C"];
+    return palette[i % palette.length];
+  }
+  
 
 function renderList() {
   segmentList.innerHTML = '';
